@@ -6,7 +6,6 @@
   "author": "ivfisunov",
   "license": "ISC",
   "scripts": {
-    "test": "jest",
     "watch": "webpack --watch",
     "start": "webpack-dev-server --open",
     "webpack": "webpack",
