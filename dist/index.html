@@ -4,19 +4,18 @@
     <title>RSS reader</title>
   </head>
   <body>
-      
       <div class="container">
-        <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-            <div class="input-group mb-1">
-                <input type="text" class="form-control" placeholder="Feed" aria-label="Recipient's username" aria-describedby="button-addon2">
-                <div class="input-group-append">
-                  <button class="btn btn-outline-success" type="button" id="button">Read</button>
-                </div>
-              </div>
-        </nav>
         <div class="jumbotron">
-          <h1>RSS Reader</h1>
-          <div id="point"></div>
+            <h1 style="text-align:center">RSS Reader</h1>
+          <div class="input-group shadow p-3 mb-5 bg-white rounded">
+              <input type="text" class="form-control form-control-gray" id="input-url" placeholder="Feed">
+              <div class="input-group-append">
+                <button class="btn btn-outline-success form-control-no-border" type="button" id="button" disabled>Read</button>
+              </div>
+          </div>
+          <hr>
+          <div id="feeds"></div>
+          
         </div>
       </div>
     

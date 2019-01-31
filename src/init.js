@@ -1,7 +1,10 @@
-import Example from './example';
+import watchState from './watch';
+import { inputHandler, buttonHandler } from './handlers';
+import StateApplication from './state';
 
 export default () => {
-  const element = document.getElementById('point');
-  const obj = new Example(element);
-  obj.init();
+  const state = new StateApplication();
+  watchState(state);
+  inputHandler(state);
+  buttonHandler(state);
 };

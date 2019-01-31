@@ -23,7 +23,4 @@ module.exports = {
       template: 'template.rss.html',
     }),
   ],
-  devServer: {
-    contentBase: './dist',
-  },
 };
