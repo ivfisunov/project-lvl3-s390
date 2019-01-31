@@ -4,6 +4,7 @@ __tests__
 dist
 archive
 node_modules
+node_modules
 
 
 
