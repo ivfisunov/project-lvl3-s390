@@ -1,9 +1,10 @@
-node_modules
 *.log
 .vscode
 __tests__
 dist
 archive
+node_modules
+
 
 
 
