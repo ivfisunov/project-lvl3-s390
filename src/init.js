@@ -1,9 +1,9 @@
 import watchState from './watch';
 import { inputHandler, buttonHandler } from './handlers';
-import StateApplication from './state';
+import State from './state';
 
 export default () => {
-  const state = new StateApplication();
+  const state = new State();
   watchState(state);
   inputHandler(state);
   buttonHandler(state);

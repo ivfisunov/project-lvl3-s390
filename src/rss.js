@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const rssParser = (feed, state) => {
+const parseRSS = (feed) => {
   const parser = new DOMParser();
   const document = parser.parseFromString(feed.data, 'application/xml');
   const feedTitle = document.querySelector('title').textContent;
@@ -13,16 +13,22 @@ const rssParser = (feed, state) => {
     const allItems = { itemTitle, itemDescription, itemLink };
     return allItems;
   });
-  state.addFeed({ feedTitle, feedDescription, feedItems });
+  return { feedTitle, feedDescription, feedItems };
 };
 
 const readFeed = (state) => {
+  const loadIcon = document.getElementById('load-icon');
   axios.get(`https://cors-anywhere.herokuapp.com/${state.inputUrl}`)
-    .then((response) => {
+    .then((feed) => {
+      loadIcon.style.visibility = 'hidden';
+      state.addFeed(parseRSS(feed));
       state.setInputUrl('');
-      rssParser(response, state);
+      document.getElementById('input-url').disabled = false;
+      document.getElementById('input-url').value = '';
     })
     .catch((err) => {
+      loadIcon.style.visibility = 'hidden';
+      document.getElementById('input-url').disabled = false;
       state.setError(err);
     });
 };

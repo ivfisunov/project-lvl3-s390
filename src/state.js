@@ -1,7 +1,6 @@
-export default class StateApplication {
+export default class State {
   constructor() {
     this.inputUrl = '';
-    this.inputUrlValid = '';
     this.feeds = [];
     this.urls = [];
     this.error = '';
@@ -9,10 +8,6 @@ export default class StateApplication {
 
   setInputUrl(url) {
     this.inputUrl = url;
-  }
-
-  setInputUrlValid(status) {
-    this.inputUrlValid = status;
   }
 
   addUrl(url) {
