@@ -69,6 +69,7 @@ export const renderInputForm = (state) => {
   if (state.inputUrl === '') {
     inputUrl.classList.remove('is-valid');
     inputUrl.classList.remove('is-invalid');
+    button.disabled = true;
   } else if (!validator.isURL(state.inputUrl) || state.urls.includes(state.inputUrl)) {
     inputUrl.classList.remove('is-valid');
     inputUrl.classList.add('is-invalid');
