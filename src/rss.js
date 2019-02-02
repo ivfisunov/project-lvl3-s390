@@ -16,19 +16,32 @@ const parseRSS = (feed) => {
   return { feedTitle, feedDescription, feedItems };
 };
 
-const readFeed = (state) => {
-  const loadIcon = document.getElementById('load-icon');
-  axios.get(`https://cors-anywhere.herokuapp.com/${state.inputUrl}`)
-    .then((feed) => {
-      loadIcon.style.visibility = 'hidden';
-      state.addFeed(parseRSS(feed));
-      state.setInputUrl('');
-      document.getElementById('input-url').disabled = false;
-      document.getElementById('input-url').value = '';
+const reloadFeed = (state) => {
+  axios.all(state.urls.map(link => axios.get(`https://cors-anywhere.herokuapp.com/${link}`)))
+    .then(([...allFeeds]) => {
+      // let newFeeds = [];
+      // allFeeds.forEach((feed) => {
+      //   newFeeds = [parseRSS(feed), ...newFeeds];
+      // });
+      const newFeeds = allFeeds.reduce((acc, feed) => [parseRSS(feed), ...acc], []);
+      state.reloadFeeds(newFeeds);
+      setTimeout(reloadFeed, 5000, state);
     })
     .catch((err) => {
-      loadIcon.style.visibility = 'hidden';
-      document.getElementById('input-url').disabled = false;
+      state.setError(err);
+    });
+};
+
+const readFeed = (state) => {
+  axios.get(`https://cors-anywhere.herokuapp.com/${state.inputUrl}`)
+    .then((feed) => {
+      state.addUrl(state.inputUrl);
+      state.addFeed(parseRSS(feed));
+      state.setInputUrl('');
+      setTimeout(reloadFeed, 5000, state);
+    })
+    .catch((err) => {
+      state.setInputUrlStatus('valid');
       state.setError(err);
     });
 };
