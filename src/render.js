@@ -47,50 +47,54 @@ export const renderFeed = (state) => {
 };
 
 export const renderError = (state) => {
-  const feeds = document.getElementById('feeds');
+  const error = document.getElementById('error');
   const errMessage = `
     <div class="alert alert-danger fade show" id="error" role="alert">
     <h3>Ups... Something gone wrong!</h3>
     <p>${state.error}</p>
     </div>
     `;
-  feeds.insertAdjacentHTML('afterbegin', errMessage);
+  error.style.removeProperty('display');
+  error.innerHTML = errMessage;
   setTimeout(() => {
-    $('#error').fadeOut('slow');
+    $('#error').slideUp('slow');
   }, 3000);
 };
 
-export const renderInputForm = (state) => {
+export const renderStatus = (state) => {
+  const inputUrl = document.getElementById('input-url');
+  const button = document.getElementById('button');
+  const loadIcon = document.getElementById('load-icon');
+  loadIcon.style.visibility = 'hidden';
+  if (state.status === 'error') {
+    inputUrl.classList.add('is-valid');
+    inputUrl.classList.remove('is-invalid');
+    button.disabled = false;
+    inputUrl.disabled = false;
+  } else if (state.status === 'loading...') {
+    inputUrl.disabled = true;
+    loadIcon.style.visibility = 'visible';
+  } else if (state.status === 'loaded') {
+    loadIcon.style.visibility = 'hidden';
+  }
+};
+
+export const renderInput = (state) => {
   const inputUrl = document.getElementById('input-url');
   const button = document.getElementById('button');
   button.disabled = true;
   inputUrl.disabled = false;
-  const loadIcon = document.getElementById('load-icon');
-  loadIcon.style.visibility = 'hidden';
 
-  if (state.inputUrlStatus === 'empty') {
+  if (state.inputUrl === '') {
     inputUrl.classList.remove('is-valid');
     inputUrl.classList.remove('is-invalid');
     inputUrl.value = '';
-  } else if (state.inputUrlStatus === 'invalid') {
+  } else if (!validator.isURL(state.inputUrl) || state.urls.includes(state.inputUrl)) {
     inputUrl.classList.remove('is-valid');
     inputUrl.classList.add('is-invalid');
-  } else if (state.inputUrlStatus === 'valid') {
+  } else {
     inputUrl.classList.add('is-valid');
     inputUrl.classList.remove('is-invalid');
     button.disabled = false;
-  } else if (state.inputUrlStatus === 'loading...') {
-    inputUrl.disabled = true;
-    loadIcon.style.visibility = 'visible';
-  }
-};
-
-export const setInputStatus = (state) => {
-  if (state.inputUrl === '') {
-    state.setInputUrlStatus('empty');
-  } else if (!validator.isURL(state.inputUrl) || state.urls.includes(state.inputUrl)) {
-    state.setInputUrlStatus('invalid');
-  } else {
-    state.setInputUrlStatus('valid');
   }
 };

@@ -1,15 +1,15 @@
 import { watch } from 'melanke-watchjs';
 import {
-  renderFeed, renderError, renderInputForm, setInputStatus,
+  renderFeed, renderError, renderStatus, renderInput,
 } from './render';
 
 const watchState = (state) => {
   watch(state, 'inputUrl', () => {
-    setInputStatus(state);
+    renderInput(state);
   });
 
-  watch(state, 'inputUrlStatus', () => {
-    renderInputForm(state);
+  watch(state, 'status', () => {
+    renderStatus(state);
   });
 
   watch(state, 'feeds', () => {

@@ -10,7 +10,6 @@ export const inputHandler = (state) => {
 export const buttonHandler = (state) => {
   const button = document.getElementById('button');
   button.addEventListener('click', () => {
-    state.setInputUrlStatus('loading...');
     readFeed(state);
   });
 };

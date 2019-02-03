@@ -1,7 +1,7 @@
 export default class State {
   constructor() {
     this.inputUrl = '';
-    this.inputUrlStatus = '';
+    this.status = '';
     this.feeds = [];
     this.urls = [];
     this.error = '';
@@ -11,8 +11,8 @@ export default class State {
     this.inputUrl = url;
   }
 
-  setInputUrlStatus(status) {
-    this.inputUrlStatus = status;
+  setStatus(status) {
+    this.status = status;
   }
 
   addUrl(url) {
