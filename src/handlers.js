@@ -1,4 +1,4 @@
-import readFeed from './rss';
+import addNewFeed from './rss';
 
 export const inputHandler = (state) => {
   const input = document.getElementById('input-url');
@@ -10,6 +10,6 @@ export const inputHandler = (state) => {
 export const buttonHandler = (state) => {
   const button = document.getElementById('button');
   button.addEventListener('click', () => {
-    readFeed(state);
+    addNewFeed(state);
   });
 };

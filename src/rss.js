@@ -4,6 +4,9 @@ import * as consts from './constants';
 const parseRSS = (feed) => {
   const parser = new DOMParser();
   const document = parser.parseFromString(feed.data, 'application/xml');
+  if (!document.querySelector('channel')) {
+    throw new Error('There is an error reading feed.');
+  }
   const feedTitle = document.querySelector('title').textContent;
   const feedDescription = document.querySelector('description').textContent;
   const items = document.querySelectorAll('item');
@@ -17,32 +20,37 @@ const parseRSS = (feed) => {
   return { feedTitle, feedDescription, feedItems };
 };
 
-const reloadFeed = (state) => {
+export const updateFeed = (state) => {
   axios.all(state.urls.map(link => axios.get(`${consts.corsProxyLink}${link}`)))
     .then((allFeeds) => {
       const newFeeds = allFeeds.reduce((acc, feed) => [parseRSS(feed), ...acc], []);
       state.reloadFeeds(newFeeds);
-      // console.log(newFeeds);
-      setTimeout(reloadFeed, 5000, state);
-    });
-};
-
-const readFeed = (state) => {
-  state.setStatus('loading...');
-  axios.get(`${consts.corsProxyLink}${state.inputUrl}`)
-    .then((feed) => {
-      if (state.urls.length === 0) {
-        setTimeout(reloadFeed, 5000, state);
-      }
-      state.addUrl(state.inputUrl);
-      state.addFeed(parseRSS(feed));
-      state.setInputUrl('');
-      state.setStatus('loaded');
+      console.log(newFeeds);
     })
     .catch((err) => {
       state.setStatus('error');
       state.setError(err);
+    })
+    .finally(() => {
+      setTimeout(updateFeed, 5000, state);
     });
 };
 
-export default readFeed;
+const addNewFeed = (state) => {
+  state.setStatus('loading...');
+  axios.get(`${consts.corsProxyLink}${state.inputUrl}`)
+    .then((feed) => {
+      state.addUrl(state.inputUrl);
+      state.setInputUrl('');
+      state.addFeed(parseRSS(feed));
+    })
+    .catch((err) => {
+      state.setStatus('error');
+      state.setError(err);
+    })
+    .finally(() => {
+      state.setStatus('loaded');
+    });
+};
+
+export default addNewFeed;

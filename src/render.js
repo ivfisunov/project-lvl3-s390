@@ -36,7 +36,7 @@ export const renderFeed = (state) => {
       });
       li.append(a);
       li.append(button);
-      li.style = 'padding: 5px';
+      li.classList.add('py-1');
       ul.append(li);
     });
     const div = document.createElement('div');
@@ -65,7 +65,7 @@ export const renderStatus = (state) => {
   const inputUrl = document.getElementById('input-url');
   const button = document.getElementById('button');
   const loadIcon = document.getElementById('load-icon');
-  loadIcon.style.visibility = 'hidden';
+  // loadIcon.style.visibility = 'hidden';
   if (state.status === 'error') {
     inputUrl.classList.add('is-valid');
     inputUrl.classList.remove('is-invalid');
@@ -76,6 +76,7 @@ export const renderStatus = (state) => {
     loadIcon.style.visibility = 'visible';
   } else if (state.status === 'loaded') {
     loadIcon.style.visibility = 'hidden';
+    inputUrl.disabled = false;
   }
 };
 

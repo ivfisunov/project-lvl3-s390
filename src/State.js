@@ -16,11 +16,13 @@ export default class State {
   }
 
   addUrl(url) {
-    this.urls = [...this.urls, url];
+    this.urls.push(url);
+    // this.urls = [...this.urls, url];
   }
 
   addFeed(feed) {
-    this.feeds = [feed, ...this.feeds];
+    this.feeds.unshift(feed);
+    // this.feeds = [feed, ...this.feeds];
   }
 
   reloadFeeds(feeds) {
