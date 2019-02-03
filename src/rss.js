@@ -37,7 +37,7 @@ export const updateFeed = (state) => {
 };
 
 const addNewFeed = (state) => {
-  state.setStatus('loading...');
+  state.setStatus('loading');
   axios.get(`${consts.corsProxyLink}${state.inputUrl}`)
     .then((feed) => {
       state.addUrl(state.inputUrl);

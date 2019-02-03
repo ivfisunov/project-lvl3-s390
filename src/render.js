@@ -71,7 +71,7 @@ export const renderStatus = (state) => {
     inputUrl.classList.remove('is-invalid');
     button.disabled = false;
     inputUrl.disabled = false;
-  } else if (state.status === 'loading...') {
+  } else if (state.status === 'loading') {
     inputUrl.disabled = true;
     loadIcon.style.visibility = 'visible';
   } else if (state.status === 'loaded') {
